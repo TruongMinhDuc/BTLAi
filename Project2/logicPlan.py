@@ -50,9 +50,21 @@ def sentence1() -> Expr:
     (not A) or (not B) or C
     """
     "*** BEGIN YOUR CODE HERE ***"
+    A = Expr('A')
+    B = Expr('B')
+    C = Expr('C')
+    notA = ~A
+    notB = ~B
+    notBorC = notB | C
+    myList =[]
+    myList.insert(0, A | B)
+    myList.insert(1, notA % notBorC)
+    myList.insert(2, disjoin([notA, notB, C]))
+    return conjoin([myList[0], myList[1], myList[2]])
+
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
-
+   
 
 def sentence2() -> Expr:
     """Returns a Expr instance that encodes that the following expressions are all true.
@@ -63,6 +75,19 @@ def sentence2() -> Expr:
     (not D) implies C
     """
     "*** BEGIN YOUR CODE HERE ***"
+    A = Expr('A')
+    B = Expr('B')
+    C = Expr('C')
+    D = Expr('D')
+    BorD = B | D
+    notBandnotD = ~B & ~D
+    BandnotC = B & ~C
+    myList = []
+    myList.insert(0, C % BorD)
+    myList.insert(1, A >> notBandnotD)
+    myList.insert(2, ~BandnotC >> A)
+    myList.insert(3, ~D >> C)
+    return conjoin([myList[0], myList[1], myList[2], myList[3]])
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
@@ -80,6 +105,19 @@ def sentence3() -> Expr:
     Pacman is born at time 0.
     """
     "*** BEGIN YOUR CODE HERE ***"
+    pacmanAlive0 = PropSymbolExpr("PacmanAlive_0")
+    pacmanAlive1 = PropSymbolExpr("PacmanAlive_1")
+    pacmanBorn0 = PropSymbolExpr("PacmanBorn_0")
+    pacmanKilled0 = PropSymbolExpr("PacmanKilled_0")
+    myList = []
+    sent1 = pacmanAlive0 & ~(pacmanKilled0)
+    sent2 = ~(pacmanAlive0) & pacmanBorn0
+    sent3 = ~(pacmanAlive0 & pacmanBorn0)
+    sent1orsent2 = sent1 | sent2
+    myList.insert(0, pacmanAlive1 % sent1orsent2)
+    myList.insert(1, sent3)
+    myList.insert(2, pacmanBorn0)
+    return conjoin([myList[0], myList[1], myList[2]])
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
@@ -94,9 +132,11 @@ def findModelUnderstandingCheck() -> Dict[Expr, bool]:
     """Returns the result of findModel(Expr('a')) if lower cased expressions were allowed.
     You should not use findModel or Expr in this method.
     """
+    
     a = Expr('A')
     "*** BEGIN YOUR CODE HERE ***"
-    print("a.__dict__ is:", a.__dict__) # might be helpful for getting ideas
+    setattr(a, 'op', 'a')
+    return {a:True}
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
@@ -104,6 +144,10 @@ def entails(premise: Expr, conclusion: Expr) -> bool:
     """Returns True if the premise entails the conclusion and False otherwise.
     """
     "*** BEGIN YOUR CODE HERE ***"
+    line = premise & ~(conclusion)
+    if(findModel(line) == False):
+        return True
+    return False
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
@@ -112,6 +156,7 @@ def plTrueInverse(assignments: Dict[Expr, bool], inverse_statement: Expr) -> boo
     pl_true may be useful here; see logic.py for its description.
     """
     "*** BEGIN YOUR CODE HERE ***"
+    return pl_true(~inverse_statement, assignments)
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
