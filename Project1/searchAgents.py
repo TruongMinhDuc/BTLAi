@@ -319,8 +319,7 @@ class CornersProblem(search.SearchProblem):
         vis_corners =tuple(a)
         if len(vis_corners) == 4:
             return True
-        else:
-            return False
+        return False
         
         util.raiseNotDefined()
 
@@ -406,8 +405,7 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
 
             if new_dist > dist_max:
                 dist_max = new_dist
-
-    return dist_max # Default to trivial solution
+    return dist_max 
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -507,7 +505,6 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
         new_dist = mazeDistance(state[0], food, problem.startingGameState)
         if new_dist > dist_max:
             dist_max = new_dist
-
     return dist_max
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -578,8 +575,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         "*** YOUR CODE HERE ***"
         if state in self.food.asList():
             return True
-        else:
-            return False
+        return False
         util.raiseNotDefined()
 
 def mazeDistance(point1: Tuple[int, int], point2: Tuple[int, int], gameState: pacman.GameState) -> int:
