@@ -431,7 +431,6 @@ class FoodSearchProblem:
         self._expanded = 0 # DO NOT CHANGE
         self.heuristicInfo = {} # A dictionary for the heuristic to store information
       
-
     def getStartState(self):
         return self.start
 
