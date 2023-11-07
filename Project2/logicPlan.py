@@ -526,9 +526,9 @@ def localization(problem, agent) -> Generator:
         for(x, y) in non_outer_wall_coords:
             if findModel(conjoin([conjoin(KB), PropSymbolExpr(pacman_str, x, y, time= t)])):
                 possible_locations.append((x, y))
-            if entails(conjoin(KB), PropSymbolExpr(pacman_str, x, y, time= t)) == True:
+            if entails(conjoin(KB), PropSymbolExpr(pacman_str, x, y, time= t)):
                 KB.append(PropSymbolExpr(pacman_str, x, y, time= t))
-            elif entails(conjoin(KB), ~PropSymbolExpr(pacman_str, x, y, time= t)) == True:
+            elif entails(conjoin(KB), ~PropSymbolExpr(pacman_str, x, y, time= t)):
                 KB.append(~PropSymbolExpr(pacman_str, x, y, time= t))
         agent.moveToNextState(agent.actions[t])
         "*** END YOUR CODE HERE ***"
@@ -574,10 +574,10 @@ def mapping(problem, agent) -> Generator:
         result = fourBitPerceptRules(t= t, percepts= percepts)
         KB.append(result)
         for (x, y) in non_outer_wall_coords:
-            if entails(conjoin(KB), PropSymbolExpr(wall_str, x, y)) == True:
+            if entails(conjoin(KB), PropSymbolExpr(wall_str, x, y)):
                 KB.append(PropSymbolExpr(wall_str, x, y))
                 known_map[x][y] = 1
-            elif entails(conjoin(KB), ~PropSymbolExpr(wall_str, x, y)) == True:
+            elif entails(conjoin(KB), ~PropSymbolExpr(wall_str, x, y)):
                 KB.append(~PropSymbolExpr(wall_str, x, y))
                 known_map[x][y] = 0
         agent.moveToNextState(agent.actions[t])        
