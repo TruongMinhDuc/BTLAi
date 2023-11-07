@@ -507,12 +507,33 @@ def localization(problem, agent) -> Generator:
     KB = []
 
     "*** BEGIN YOUR CODE HERE ***"
-    util.raiseNotDefined()
-
+    
+    for(x, y) in walls_list:
+        KB.append(PropSymbolExpr(wall_str, x, y))
+    
+    for(x, y) in all_coords:
+        if (x, y) not in walls_list:
+            KB.append(~PropSymbolExpr(wall_str, x, y))
+            
     for t in range(agent.num_timesteps):
+        KB.append(pacphysicsAxioms(t, all_coords, non_outer_wall_coords, walls_grid, sensorModel= sensorAxioms, successorAxioms= allLegalSuccessorAxioms))
+        KB.append(PropSymbolExpr(agent.actions[t], time= t))
+        percepts = agent.getPercepts()
+        result = fourBitPerceptRules(t = t, percepts= percepts)
+        KB.append(result)
+
+        possible_locations = [] #possible locations
+        for(x, y) in non_outer_wall_coords:
+            if findModel(conjoin([conjoin(KB), PropSymbolExpr(pacman_str, x, y, time= t)])):
+                possible_locations.append((x, y))
+            if entails(conjoin(KB), PropSymbolExpr(pacman_str, x, y, time= t)) == True:
+                KB.append(PropSymbolExpr(pacman_str, x, y, time= t))
+            elif entails(conjoin(KB), ~PropSymbolExpr(pacman_str, x, y, time= t)) == True:
+                KB.append(~PropSymbolExpr(pacman_str, x, y, time= t))
+        agent.moveToNextState(agent.actions[t])
         "*** END YOUR CODE HERE ***"
         yield possible_locations
-
+    util.raiseNotDefined()
 #______________________________________________________________________________
 # QUESTION 7
 
