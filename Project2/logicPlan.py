@@ -408,18 +408,21 @@ def positionLogicPlan(problem) -> List:
     "*** BEGIN YOUR CODE HERE ***"
     KB.append(PropSymbolExpr(pacman_str, x0, y0, time= 0))
     for t in range(50):
-        print(t)
+
         locs = [] #locations
         for(x, y) in non_wall_coords:
             locs.append(PropSymbolExpr(pacman_str, x, y, time= t))
         KB.append(exactlyOne(locs))
+
         model = findModel(conjoin([PropSymbolExpr(pacman_str, xg, yg, time = t), conjoin(KB)]))
         if model:
             return extractActionSequence(model, actions)
+        
         act = []
         for action in actions:
             act.append(PropSymbolExpr(action, time= t))
         KB.append(exactlyOne(act))
+
         for(x, y) in non_wall_coords:
             KB.append(pacmanSuccessorAxiomSingle(x, y, time= t + 1, walls_grid= walls_grid))
     util.raiseNotDefined()
@@ -450,7 +453,41 @@ def foodLogicPlan(problem) -> List:
 
     KB = []
 
-    "*** BEGIN YOUR CODE HERE ***"
+    "*** BEGIN YOUR CODE HERE ***" 
+    KB.append(PropSymbolExpr(pacman_str, x0, y0, time= 0))
+
+    for (x,y) in food:
+        KB.append(PropSymbolExpr(food_str, x, y, time= 0))
+
+    for t in range(50):
+        
+        foodList = []
+        for (x, y) in food:
+            foodList.append(PropSymbolExpr(food_str, x, y, time= t))
+
+        possibleLoc = [] #possible locations 
+        for(x, y) in non_wall_coords:
+            possibleLoc.append(PropSymbolExpr(pacman_str, x, y, time= t))
+        KB.append(exactlyOne(possibleLoc))
+
+        possibleAct = [] #possible Action
+        for action in actions:
+            possibleAct.append(PropSymbolExpr(action, time= t))
+        KB.append(exactlyOne(possibleAct))
+
+        for(x, y) in non_wall_coords:
+            KB.append(pacmanSuccessorAxiomSingle(x, y, time= t + 1, walls_grid= walls))
+
+        for (x, y) in all_coords:
+            pacman = PropSymbolExpr(pacman_str, x, y, time= t)
+            oldFood = PropSymbolExpr(food_str, x, y, time= t)
+            newFood = PropSymbolExpr(food_str, x, y, time= t + 1)
+            KB.append((pacman | ~oldFood) % ~newFood)
+
+        goal = ~disjoin(foodList)
+        model = findModel(conjoin([goal, conjoin(KB)]))
+        if model: 
+            return extractActionSequence(model, actions)
     util.raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
