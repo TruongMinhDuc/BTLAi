@@ -1,5 +1,5 @@
 import nn
-con = 3
+con = 21
 class PerceptronModel(object):
     def __init__(self, dimensions):
         """
