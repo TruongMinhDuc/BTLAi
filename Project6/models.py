@@ -56,7 +56,6 @@ class PerceptronModel(object):
             if i == 0:
                 break
 
-
 class RegressionModel(object):
     """
     A neural network model for approximating a function that maps from real
