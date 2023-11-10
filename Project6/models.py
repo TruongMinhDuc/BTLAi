@@ -1,5 +1,5 @@
 import nn
-con = 21
+
 class PerceptronModel(object):
     def __init__(self, dimensions):
         """
@@ -27,7 +27,7 @@ class PerceptronModel(object):
         Returns: a node containing a single number (the score)
         """
         "*** YOUR CODE HERE ***"
-        return nn.DotProduct(self.get_weights(), x)
+        return nn.DotProduct(x, self.get_weights())
 
     def get_prediction(self, x):
         """
@@ -46,13 +46,15 @@ class PerceptronModel(object):
         Train the perceptron until convergence.
         """
         "*** YOUR CODE HERE ***"
-        
-        for x, y in dataset.iterate_once(1):
-            if self.get_prediction(x) == 1 and y == -1:
-                self.get_weights().update(x, -1)                   
-            elif self.get_prediction(x) == -1 and y == 1:
-                self.get_weights().update(x, 1)
-                    
+        while True:
+            i = 0
+            for x, y in dataset.iterate_once(1):
+                if self.get_prediction(x) != nn.as_scalar(y): 
+                    self.get_weights().update(x, nn.as_scalar(y))
+                    i += 1 
+            if i == 0:
+                break   
+                
            
 
 
