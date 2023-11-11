@@ -36,23 +36,16 @@ class PerceptronModel(object):
         Returns: 1 or -1
         """
         "*** YOUR CODE HERE ***"
-<<<<<<< HEAD
-        cal = self.run(x)
-        if nn.as_scalar(cal) >= 0:
-            return 1
-        return -1
-=======
         if(nn.as_scalar(self.run(x)) >= 0):
             return 1
-        else:
-            return -1
->>>>>>> 158e1a78d8066995fcb941a0dceac982fce74f93
+        return -1
 
     def train(self, dataset):
         """
         Train the perceptron until convergence.
         """
         "*** YOUR CODE HERE ***"
+        #https://www.cs.cornell.edu/courses/cs4780/2018fa/lectures/lecturenote03.html
         while True:
             i = 0
             for x, y in dataset.iterate_once(1):
@@ -61,10 +54,7 @@ class PerceptronModel(object):
                     i += 1 
             if i == 0:
                 break   
-                
-           
-
-
+            
 class RegressionModel(object):
     """
     A neural network model for approximating a function that maps from real
