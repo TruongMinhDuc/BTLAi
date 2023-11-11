@@ -1,5 +1,6 @@
 import nn
 
+
 class PerceptronModel(object):
     def __init__(self, dimensions):
         """
@@ -64,6 +65,10 @@ class RegressionModel(object):
     def __init__(self):
         # Initialize your model parameters here
         "*** YOUR CODE HERE ***"
+        self.w1 = nn.Parameter(1, 512)
+        self.w2 = nn.Parameter(512, 1)
+        self.b1 = nn.Parameter(1, 512)
+        self.b2 = nn.Parameter(1, 1)
 
     def run(self, x):
         """
@@ -75,6 +80,15 @@ class RegressionModel(object):
             A node with shape (batch_size x 1) containing predicted y-values
         """
         "*** YOUR CODE HERE ***"
+        """
+        f(x) = linear(h2, b2) + b2
+        h2 = ReLU(h1 + b1)
+        h1 = linear(x, w1)
+        """
+        h1 = nn.Linear(x, self.w1)
+        h2 = nn.ReLU(nn.AddBias(h1, self.b1))
+        return nn.AddBias(nn.Linear(h2, self.w2), self.b2)
+
 
     def get_loss(self, x, y):
         """
@@ -87,6 +101,8 @@ class RegressionModel(object):
         Returns: a loss node
         """
         "*** YOUR CODE HERE ***"
+        predicted_y = self.run(x)
+        return nn.SquareLoss(predicted_y, y)
 
     def train(self, dataset):
         """
