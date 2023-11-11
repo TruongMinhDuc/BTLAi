@@ -93,18 +93,18 @@ def depthFirstSearch(problem: SearchProblem):
     stack.push((start, []))
 
     while stack.isEmpty() == False:
-        cur_node, path = stack.pop()
-        if problem.isGoalState(cur_node):
+        curNode, path = stack.pop()
+        if problem.isGoalState(curNode):
             return path
         else:
-            if cur_node in visited:
+            if curNode in visited:
                 continue
             else:
-                visited.add(cur_node)
-            successors = problem.getSuccessors(cur_node)
+                visited.add(curNode)
+            successors = problem.getSuccessors(curNode)
             for (succ, action, cost) in successors:
-                new_path = path + [action]
-                stack.push((succ, new_path))
+                newPath = path + [action]
+                stack.push((succ, newPath))
 
     util.raiseNotDefined()
 
