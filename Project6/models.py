@@ -37,9 +37,9 @@ class PerceptronModel(object):
         """
         "*** YOUR CODE HERE ***"
         cal = self.run(x)
-        if nn.as_scalar(cal) < 0:
-            return -1
-        return 1
+        if nn.as_scalar(cal) >= 0:
+            return 1
+        return -1
 
     def train(self, dataset):
         """
