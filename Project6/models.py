@@ -48,9 +48,9 @@ class PerceptronModel(object):
         #https://www.cs.cornell.edu/courses/cs4780/2018fa/lectures/lecturenote03.html
         while True:
             i = 0
-            for x, y in dataset.iterate_once(1):
+            for (x, y) in dataset.iterate_once(1):
                 if self.get_prediction(x) != nn.as_scalar(y): 
-                    self.get_weights().update(x, nn.as_scalar(y))
+                    nn.Parameter.update(self.w, x,nn.as_scalar(y))
                     i += 1 
             if i == 0:
                 break   
