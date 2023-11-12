@@ -61,10 +61,6 @@ class RegressionModel(object):
     A neural network model for approximating a function that maps from real
     numbers to real numbers. The network should be sufficiently large to be able
     to approximate sin(x) on the interval [-2pi, 2pi] to reasonable precision.
-    Hidden layer size 512
-    Batch size 200
-    Learning rate 0.05
-    One hidden layer (2 linear layers in total)
     """
     def __init__(self):
         # Initialize your model parameters here
@@ -129,6 +125,7 @@ class RegressionModel(object):
                 break
 
 
+
 class DigitClassificationModel(object):
     """
     A model for handwritten digit classification using the MNIST dataset.
@@ -145,17 +142,7 @@ class DigitClassificationModel(object):
     """
     def __init__(self):
         # Initialize your model parameters here
-        """
-        Hidden layer size 200
-        Batch size 100
-        Learning rate 0.5
-        One hidden layer (2 linear layers in total)
-        """
         "*** YOUR CODE HERE ***"
-        self.w1 = nn.Parameter(784, 200)
-        self.w2 = nn.Parameter(200, 10)
-        self.b1 = nn.Parameter(1, 200)
-        self.b2 = nn.Parameter(1, 10)
 
     def run(self, x):
         """
@@ -172,9 +159,6 @@ class DigitClassificationModel(object):
                 (also called logits)
         """
         "*** YOUR CODE HERE ***"
-        h1 = nn.Linear(x, self.w1)
-        h2 = nn.ReLU(nn.AddBias(h1, self.b1))
-        return nn.AddBias(nn.Linear(h2, self.w2), self.b2)
 
     def get_loss(self, x, y):
         """
@@ -190,27 +174,12 @@ class DigitClassificationModel(object):
         Returns: a loss node
         """
         "*** YOUR CODE HERE ***"
-        predicted_y = self.run(x)
-        return nn.SquareLoss(predicted_y, y)
 
     def train(self, dataset):
         """
         Trains the model.
         """
         "*** YOUR CODE HERE ***"
-        while True:
-            i = 0 
-            for (x, y) in dataset.iterate_once(100):
-                loss = (self.get_loss(x, y))
-                if dataset.get_validation_accuracy() < 0.971:
-                    i+= 1
-                    grad_wrt =  nn.gradients(loss,[self.w1, self.b1, self.w2, self.b2])
-                    self.w1.update(grad_wrt[0], -0.5)
-                    self.b1.update(grad_wrt[1], -0.5)
-                    self.w2.update(grad_wrt[2], -0.5)
-                    self.b2.update(grad_wrt[3], -0.5)
-            if i == 0: break
-        
 
 class LanguageIDModel(object):
     """
