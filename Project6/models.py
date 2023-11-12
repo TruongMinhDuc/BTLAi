@@ -115,13 +115,14 @@ class RegressionModel(object):
                 loss = (self.get_loss(x, y))
                 if nn.as_scalar(loss) > 0.02:
                     i+= 1
-                    grad_wrt =  nn.gradients(loss,[self.w1, self.b1, self.w2, self.b2])
+                    grad_wrt =  nn.gradients(loss, [self.w1, self.b1, self.w2, self.b2])
                     self.w1.update(grad_wrt[0], -0.05)
                     self.b1.update(grad_wrt[1], -0.05)
                     self.w2.update(grad_wrt[2], -0.05)
                     self.b2.update(grad_wrt[3], -0.05)
-                    print(nn.as_scalar(loss))
-            if i == 0: break
+                    nn.as_scalar(loss)
+            if i == 0: 
+                break
 
 
 
