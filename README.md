@@ -1,1 +1,1 @@
-# BTLAi - Nhóm 13.
+# BTLAi
