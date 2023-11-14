@@ -153,9 +153,11 @@ class DigitClassificationModel(object):
         """
         "*** YOUR CODE HERE ***"
         self.w1 = nn.Parameter(784, 200)
-        self.w2 = nn.Parameter(200, 10)
+        self.w2 = nn.Parameter(200, 100)
         self.b1 = nn.Parameter(1, 200)
-        self.b2 = nn.Parameter(1, 10)
+        self.b2 = nn.Parameter(1, 100)
+        self.w3 = nn.Parameter(100, 10)
+        self.b3 = nn.Parameter(1,10)
 
     def run(self, x):
         """
@@ -174,7 +176,9 @@ class DigitClassificationModel(object):
         "*** YOUR CODE HERE ***"
         h1 = nn.Linear(x, self.w1)
         h2 = nn.ReLU(nn.AddBias(h1, self.b1))
-        return nn.AddBias(nn.Linear(h2, self.w2), self.b2)
+        h3 = nn.Linear(h2,self.w2)
+        h4 = nn.ReLU(nn.AddBias(h3, self.b2))
+        return nn.AddBias(nn.Linear(h4,self.w3),self.b3)
 
     def get_loss(self, x, y):
         """
@@ -198,20 +202,17 @@ class DigitClassificationModel(object):
         Trains the model.
         """
         "*** YOUR CODE HERE ***"
-        while True:
-            i = 0 
+        while dataset.get_validation_accuracy() < 0.976:
             for (x, y) in dataset.iterate_once(100):
                 loss = (self.get_loss(x, y))
-                if dataset.get_validation_accuracy() < 0.971:
-                    i+= 1
-                    grad_wrt =  nn.gradients(loss,[self.w1, self.b1, self.w2, self.b2])
-                    self.w1.update(grad_wrt[0], -0.5)
-                    self.b1.update(grad_wrt[1], -0.5)
-                    self.w2.update(grad_wrt[2], -0.5)
-                    self.b2.update(grad_wrt[3], -0.5)
-            if i == 0: break
-        
-
+                grad_wrt =  nn.gradients(loss, [self.w1, self.b1, self.w2, self.b2, self.w3, self.b3])
+                self.w1.update(grad_wrt[0], -0.5)
+                self.b1.update(grad_wrt[1], -0.5)
+                self.w2.update(grad_wrt[2], -0.5)
+                self.b2.update(grad_wrt[3], -0.5)
+                self.w3.update(grad_wrt[4], -0.5)
+                self.b3.update(grad_wrt[5], -0.5)
+            
 class LanguageIDModel(object):
     """
     A model for language identification at a single-word granularity.
