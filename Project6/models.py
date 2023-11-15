@@ -241,16 +241,16 @@ class LanguageIDModel(object):
         Two hidden layer (3 linear layers in total)
         """
         "*** YOUR CODE HERE ***"
-        self.w = nn.Parameter(self.num_chars, 400)
+        self.w = nn.Parameter(self.num_chars, 200)
 
         #hidden layer weight and bias
-        self.w1 = nn.Parameter(400, 400)
-        self.w2 = nn.Parameter(400, 400)
-        self.b1 = nn.Parameter(1, 400)
-        self.b2 = nn.Parameter(1, 400)
+        self.w1 = nn.Parameter(200, 200)
+        self.w2 = nn.Parameter(200, 200)
+        self.b1 = nn.Parameter(1, 200)
+        self.b2 = nn.Parameter(1, 200)
 
         #output layer weight and bias
-        self.w3 = nn.Parameter(400, 5)
+        self.w3 = nn.Parameter(200, 5)
         self.b3 = nn.Parameter(1, 5)
 
     def hidden_layer(self, x):
