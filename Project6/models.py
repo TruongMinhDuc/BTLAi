@@ -149,14 +149,14 @@ class DigitClassificationModel(object):
         Hidden layer size 200
         Batch size 100
         Learning rate 0.5
-        One hidden layer (2 linear layers in total)
+        Two hidden layer (3 linear layers in total)
         """
         "*** YOUR CODE HERE ***"
         self.w1 = nn.Parameter(784, 200)
         self.w2 = nn.Parameter(200, 100)
         self.b1 = nn.Parameter(1, 200)
-        self.b2 = nn.Parameter(1, 100)
-        self.w3 = nn.Parameter(100, 10)
+        self.b2 = nn.Parameter(1, 200)
+        self.w3 = nn.Parameter(200, 10)
         self.b3 = nn.Parameter(1,10)
 
     def run(self, x):
@@ -232,20 +232,20 @@ class LanguageIDModel(object):
 
         # Initialize your model parameters here
         """
-        Hidden layer size 300
+        Hidden layer size 400
         Batch size 100
         Learning rate 0.5
         Two hidden layer (3 linear layers in total)
         """
         "*** YOUR CODE HERE ***"
-        self.w = nn.Parameter(self.num_chars, 300)
+        self.w = nn.Parameter(self.num_chars, 400)
 
-        self.w1 = nn.Parameter(300, 300)
-        self.w2 = nn.Parameter(300, 300)
-        self.b1 = nn.Parameter(1, 300)
-        self.b2 = nn.Parameter(1, 300)
+        self.w1 = nn.Parameter(400, 400)
+        self.w2 = nn.Parameter(400, 400)
+        self.b1 = nn.Parameter(1, 400)
+        self.b2 = nn.Parameter(1, 400)
 
-        self.w3 = nn.Parameter(300, 5)
+        self.w3 = nn.Parameter(400, 5)
         self.b3 = nn.Parameter(1, 5)
 
     def hidden_layer(self, x):
@@ -254,11 +254,6 @@ class LanguageIDModel(object):
         output = nn.ReLU(nn.AddBias(nn.Linear(output, self.w2), self.b2))
         return output
 
-    def Linear_function(self, x):
-        #output qua Linear function
-        h1 = nn.Linear(x, self.w1)
-        h2 = nn.ReLU(nn.AddBias(h1, self.b1))
-        return nn.AddBias(nn.Linear(h2, self.w2), self.b2)
     def run(self, xs):
         """
         Runs the model for a batch of examples.
@@ -324,7 +319,7 @@ class LanguageIDModel(object):
             i = 0 
             for (x, y) in dataset.iterate_once(100):
                 loss = (self.get_loss(x, y))
-                if dataset.get_validation_accuracy() < 0.85:
+                if dataset.get_validation_accuracy() < 0.87:
                     i+= 1
                     grad_wrt =  nn.gradients(loss,[self.w1, self.b1, self.w2, self.b2, self.w3, self.b3, self.w])
                     self.w1.update(grad_wrt[0], -0.5)
