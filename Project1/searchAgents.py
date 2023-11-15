@@ -299,8 +299,8 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         start = self.startingPosition
         corners = tuple()
-        start_state = (start, corners)
-        return start_state
+        startState = (start, corners)
+        return startState
     
         util.raiseNotDefined()
 
@@ -309,15 +309,15 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        vis_corners = state[1]
-        a = list(vis_corners)
+        visCorners = state[1]
+        vistedCorners = list(visCorners)
         
         if state[0] in self.corners:
-            if state[0] not in a:
-                a.append(state[0])
+            if state[0] not in vistedCorners:
+                vistedCorners.append(state[0])
 
-        vis_corners =tuple(a)
-        if len(vis_corners) == 4:
+        visCorners = tuple(vistedCorners)
+        if len(visCorners) == 4:
             return True
         return False
         
@@ -346,21 +346,21 @@ class CornersProblem(search.SearchProblem):
             "*** YOUR CODE HERE ***"
             x = state[0][0]
             y = state[0][1]
-            v_corners = state[1]
+            vCorners = state[1]
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
 
             if not hitsWall:
-                vis_corners = list(v_corners)
+                visCorners = list(vCorners)
                 new_node = (nextx, nexty)
                 
                 if new_node in self.corners:
-                    if new_node not in vis_corners:
-                        vis_corners.append(new_node)
+                    if new_node not in visCorners:
+                        visCorners.append(new_node)
                 
-                v_corners = tuple(vis_corners)
-                succ =((new_node,v_corners), action, 1)
+                vCorners = tuple(visCorners)
+                succ =((new_node,vCorners), action, 1)
                 successors.append(succ)
 
         self._expanded += 1 # DO NOT CHANGE
@@ -397,15 +397,15 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    heur, dist_max, new_dist = 0,0,0
+    distMax, newDist = 0,0
 
     for corner in corners:
         if corner not in state[1]:
-            new_dist = mazeDistance(state[0], corner, problem.startingGameSate)
+            newDist = mazeDistance(state[0], corner, problem.startingGameSate)
 
-            if new_dist > dist_max:
-                dist_max = new_dist
-    return dist_max 
+            if newDist > distMax:
+                distMax = newDist
+    return distMax 
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -499,13 +499,13 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    heur, dist_max, new_dist = 0,0,0
+    distMax, newDist = 0,0
 
     for food in foodGrid.asList():
-        new_dist = mazeDistance(state[0], food, problem.startingGameState)
-        if new_dist > dist_max:
-            dist_max = new_dist
-    return dist_max
+        newDist = mazeDistance(state[0], food, problem.startingGameState)
+        if newDist > distMax:
+            distMax = newDist
+    return distMax
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
