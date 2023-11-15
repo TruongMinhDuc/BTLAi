@@ -198,7 +198,7 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     path = []
     par ={}
 
-    while(1):
+    while(True):
         curCost = 0
         aScore = 0
 
