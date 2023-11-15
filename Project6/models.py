@@ -152,10 +152,13 @@ class DigitClassificationModel(object):
         Two hidden layer (3 linear layers in total)
         """
         "*** YOUR CODE HERE ***"
+        #hidden layer weight and bias
         self.w1 = nn.Parameter(784, 200)
-        self.w2 = nn.Parameter(200, 100)
+        self.w2 = nn.Parameter(200, 200)
         self.b1 = nn.Parameter(1, 200)
-        self.b2 = nn.Parameter(1, 200)
+        self.b2 = nn.Parameter(1, 200) 
+
+        #output layer weight and bias
         self.w3 = nn.Parameter(200, 10)
         self.b3 = nn.Parameter(1,10)
 
@@ -240,11 +243,13 @@ class LanguageIDModel(object):
         "*** YOUR CODE HERE ***"
         self.w = nn.Parameter(self.num_chars, 400)
 
+        #hidden layer weight and bias
         self.w1 = nn.Parameter(400, 400)
         self.w2 = nn.Parameter(400, 400)
         self.b1 = nn.Parameter(1, 400)
         self.b2 = nn.Parameter(1, 400)
 
+        #output layer weight and bias
         self.w3 = nn.Parameter(400, 5)
         self.b3 = nn.Parameter(1, 5)
 
